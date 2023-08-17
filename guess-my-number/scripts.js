@@ -13,9 +13,13 @@
 // Math.trunc() removes the decimal points
 // You add the +1 to include the number 20, not 19.999999999 as the largest number
 const secretNumber = Math.trunc(Math.random() * 20) + 1;
-document.querySelector('.number').textContent = secretNumber;
+// document.querySelector('.number').textContent = secretNumber;
 
-let score = Number(document.querySelector('.score').textContent);
+console.log(secretNumber);
+
+// Define starting score as a value to change
+// Keep as state variable to always be available
+let score = 20;
 
 document.querySelector('.check').addEventListener('click', function () {
     // Variable connecting to input value
@@ -34,13 +38,31 @@ document.querySelector('.check').addEventListener('click', function () {
         // if guess = input number on click
         // update message
         document.querySelector('.message').textContent = '🥳 Correct guess!';
+        // Change inline CSS properties in DOM, inside string
+        document.querySelector('body').style.backgroundColor = '#60b347';
+        document.querySelector('.number').style.width = '30rem';
+        document.querySelector('.number').textContent = secretNumber + '!';
     } else if (guess > secretNumber) {
-        document.querySelector('.message').textContent = '✋ Too high!';
-        score--;
+        // Sub If else statement to determine if score hits 0
+        if (score > 1) {
+            document.querySelector('.message').textContent = '✋ Too high!';
+            // decrease score number
+            score--;
+            // update DOM content to reflect updated score
+            document.querySelector('.score').textContent = score;
+        } else {
+            document.querySelector('.message').textContent = '☠️ Game over';
+        }
     } else if (guess < secretNumber) {
-        document.querySelector('.message').textContent = '✋ Too low!';
-        score--;
+        // Sub If else statement to determine if score hits 0
+        if (score > 1) {
+            document.querySelector('.message').textContent = '✋ Too low!';
+            // decrease score number
+            score--;
+            // update DOM content to reflect updated score
+            document.querySelector('.score').textContent = score;
+        } else {
+            document.querySelector('.message').textContent = '☠️ Game over';
+        }
     }
 });
-
-console.log(score);
