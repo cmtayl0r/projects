@@ -45,7 +45,7 @@ document.querySelector('.check').addEventListener('click', function () {
     } else if (guess > secretNumber) {
         // Sub If else statement to determine if score hits 0
         if (score > 1) {
-            document.querySelector('.message').textContent = '✋ Too high!';
+            document.querySelector('.message').textContent = '✋ Too high!!';
             // decrease score number
             score--;
             // update DOM content to reflect updated score
@@ -56,7 +56,7 @@ document.querySelector('.check').addEventListener('click', function () {
     } else if (guess < secretNumber) {
         // Sub If else statement to determine if score hits 0
         if (score > 1) {
-            document.querySelector('.message').textContent = '✋ Too low!';
+            document.querySelector('.message').textContent = '✋ Too low!!';
             // decrease score number
             score--;
             // update DOM content to reflect updated score
