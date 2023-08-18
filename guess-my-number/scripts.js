@@ -1,26 +1,25 @@
 'use strict';
 
-// generate secret number
-// see if guess correct
-// if not reduce score number
-// if not update message to "try again"
-// if correct, update message "Success"
-// if correct, evaluate against high score
-// reset game
-
 // Define secret number once at start of game
 // Math.random() gives us a value between 0 and 1
 // Math.trunc() removes the decimal points
 // You add the +1 to include the number 20, not 19.999999999 as the largest number
-const secretNumber = Math.trunc(Math.random() * 20) + 1;
-// document.querySelector('.number').textContent = secretNumber;
-
+let secretNumber = Math.trunc(Math.random() * 20) + 1;
 console.log(secretNumber);
 
 // Define starting score as a value to change
 // Keep as state variable to always be available
 let score = 20;
 
+// define starting high score in session
+let highScore = 0;
+
+// reusable function for updating message element
+const displayMessage = function (message) {
+    document.querySelector('.message').textContent = message;
+};
+
+// Guess input
 document.querySelector('.check').addEventListener('click', function () {
     // Variable connecting to input value
     // Convert value to number, from string
@@ -33,16 +32,54 @@ document.querySelector('.check').addEventListener('click', function () {
         // 'guess' will be false
         // So, we use the not operator to turn it to true
         // This block of code can then execute (can only execute when it is true)
-        document.querySelector('.message').textContent = '⛔️ No number';
+        displayMessage('⛔️ No number');
     } else if (guess === secretNumber) {
         // if guess = input number on click
         // update message
-        document.querySelector('.message').textContent = '🥳 Correct guess!';
-        // Change inline CSS properties in DOM, inside string
+        displayMessage('🥳 Correct guess!');
+        // Change inline CSS properties in DOM, values inside a string
         document.querySelector('body').style.backgroundColor = '#60b347';
         document.querySelector('.number').style.width = '30rem';
         document.querySelector('.number').textContent = secretNumber + '!';
-    } else if (guess > secretNumber) {
+        // if guess higher than current high score
+        if (score > highScore) {
+            // set high score to current score
+            highScore = score;
+            // update high score value in DOM
+            document.querySelector('.highscore').textContent = highScore;
+        }
+    } else if (guess !== secretNumber) {
+        // sub if else for both too high and too low scenario
+        // if score is above 0 (game over)
+        if (score > 1) {
+            displayMessage(
+                guess > secretNumber ? '✋ Too high!!' : '✋ Too low!!'
+            );
+            // decrease score number
+            score--;
+            // update DOM content to reflect updated score
+            document.querySelector('.score').textContent = score;
+        } else {
+            displayMessage('☠️ Game over');
+        }
+    }
+});
+
+// Reset game button (.again)
+document.querySelector('.again').addEventListener('click', function () {
+    score = 20; // reset score number
+    secretNumber = Math.trunc(Math.random() * 20) + 1; // generate secret number
+    console.log(secretNumber);
+    document.querySelector('.guess').value = ''; // reset input to empty value
+    document.querySelector('.score').textContent = score; // reset score
+    document.querySelector('.number').textContent = '?';
+    displayMessage('Start guessing...');
+    document.querySelector('body').style.backgroundColor = '#222';
+    document.querySelector('.number').style.width = '15rem';
+});
+
+/*
+    else if (guess > secretNumber) {
         // Sub If else statement to determine if score hits 0
         if (score > 1) {
             document.querySelector('.message').textContent = '✋ Too high!!';
@@ -65,4 +102,4 @@ document.querySelector('.check').addEventListener('click', function () {
             document.querySelector('.message').textContent = '☠️ Game over';
         }
     }
-});
+*/
