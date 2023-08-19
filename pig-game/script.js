@@ -90,7 +90,7 @@ btnHold.addEventListener('click', function () {
             scores[activePlayer];
         // 2. Check if players score is >= 100
         // if scores array 0 or 1 value
-        if (scores[activePlayer] >= 20) {
+        if (scores[activePlayer] >= 100) {
             // Finish game
             // set playing variable to false (game won, deactivate buttons)
             playing = false;
